@@ -17,9 +17,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Thelia\Core\HttpKernel\Exception\NotFountHttpException;
+use Symfony\Component\HttpKernel\Exception;
+
 use Thelia\Model\ConfigQuery;
 
 /**
@@ -96,11 +98,13 @@ class Listener implements EventSubscriberInterface
 
     protected function replaceUrl($content, $oldPrefixe, $newPrefixe)
     {
-        return preg_replace(
-            '|/' . preg_quote($oldPrefixe) . '([/\?#"\'])|',
+        $replacedUrl = preg_replace(
+            '|/' . preg_quote($oldPrefixe) . '([/\?#"\'])?|',
             '/' . $newPrefixe . '$1',
             $content
         );
+
+        return $replacedUrl;
     }
 
     public function doRequest(GetResponseEvent $event)
@@ -117,12 +121,11 @@ class Listener implements EventSubscriberInterface
 
         // Discard the default /admin URL
         $isValid = 1 !== $defaultEnabled &&
-            strpos($pathInfo, '/' . BackOfficePath::DEFAULT_THELIA_PREFIX) === 0 &&
-            $prefix !== null && $prefix !== ""
-        ;
+        $pathInfo === '/' . BackOfficePath::DEFAULT_THELIA_PREFIX &&
+        $prefix !== null && $prefix !== "";
 
         if ($isValid) {
-            throw new NotFountHttpException();
+            throw new NotFoundHttpException();
         }
 
         // Check if the URL is an backOffice URL

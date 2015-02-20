@@ -23,6 +23,16 @@ class BackOfficePath extends BaseModule
 
     const DEFAULT_THELIA_PREFIX = "admin";
 
+    /**
+     * Backward compatibility
+     * @return string The module code, in a static wayord
+     */
+    public static function getModuleCode()
+    {
+        $fullClassName = explode('\\', get_called_class());
+        return end($fullClassName);
+    }
+
     public function preActivation(ConnectionInterface $con = null)
     {
         $prefix = ConfigQuery::read("back_office_path");
