@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config xmlns="http://thelia.net/schema/dic/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+    <forms>
+        <form name="backofficepath.configuration.form" class="BackOfficePath\Form\Configuration" />
+    </forms>
+
+    <services>
+        <service id="back_office_path.response.listener" class="BackOfficePath\EventListeners\Listener">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+</config>
