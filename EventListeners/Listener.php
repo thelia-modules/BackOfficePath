@@ -121,9 +121,8 @@ class Listener implements EventSubscriberInterface
 
         // Discard the default /admin URL
         $isValid = 1 !== $defaultEnabled &&
-            $pathInfo === '/' . BackOfficePath::DEFAULT_THELIA_PREFIX &&
-            $prefix !== null && $prefix !== ""
-        ;
+        $pathInfo === '/' . BackOfficePath::DEFAULT_THELIA_PREFIX &&
+        $prefix !== null && $prefix !== "";
 
         if ($isValid) {
             throw new NotFoundHttpException();
