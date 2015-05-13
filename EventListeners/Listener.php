@@ -21,7 +21,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Exception;
-
 use Thelia\Model\ConfigQuery;
 
 /**
@@ -93,14 +92,13 @@ class Listener implements EventSubscriberInterface
                 $response->setContent($content);
             }
         }
-
     }
 
     protected function replaceUrl($content, $oldPrefixe, $newPrefixe)
     {
         $replacedUrl = preg_replace(
-            '|/' . preg_quote($oldPrefixe) . '([/\?#"\'])?|',
-            '/' . $newPrefixe . '$1',
+            '#(.*?)/' . preg_quote($oldPrefixe, '#') . '(.*?)#',
+            '$1/' . $newPrefixe . '$2',
             $content
         );
 
@@ -134,7 +132,6 @@ class Listener implements EventSubscriberInterface
         ;
 
         if ($isValid) {
-
             $newUrl = $this->replaceUrl($url, $prefix, BackOfficePath::DEFAULT_THELIA_PREFIX);
             $event->getRequest()->server->set('REQUEST_URI', $newUrl);
 
@@ -148,7 +145,6 @@ class Listener implements EventSubscriberInterface
                 $event->getRequest()->getContent()
             );
         }
-
     }
 
     protected function swapUrl($url, $oldPrefix, $newPrefix)
