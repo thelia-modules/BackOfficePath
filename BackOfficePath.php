@@ -16,38 +16,51 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Thelia\Model\ConfigQuery;
 use Thelia\Module\BaseModule;
 
+/**
+ * Class BackOfficePath
+ */
 class BackOfficePath extends BaseModule
 {
-
-    const MESSAGE_DOMAIN = "backofficepath";
-
-    const DEFAULT_THELIA_PREFIX = "admin";
+    /**
+     * @var string Translation domain
+     */
+    const MESSAGE_DOMAIN = 'backofficepath';
 
     /**
-     * Backward compatibility
-     * @return string The module code, in a static wayord
+     * @var string Default admin path
      */
+    const DEFAULT_THELIA_PREFIX = 'admin';
+
+    /**
+     * @var string Configuration key for new path
+     */
+    const CONFIG_PATH = 'back_office_path';
+
+    /**
+     * @var string Configuration key for using default path
+     */
+    const CONFIG_USE_DEFAULT_PATH = 'back_office_path_default_enabled';
+
     public static function getModuleCode()
     {
         $fullClassName = explode('\\', get_called_class());
+
         return end($fullClassName);
     }
 
     public function preActivation(ConnectionInterface $con = null)
     {
-        $prefix = ConfigQuery::read("back_office_path");
-
-        if (null === $prefix){
-            ConfigQuery::write("back_office_path", '', false, true);
+        $prefix = ConfigQuery::read(self::CONFIG_PATH);
+        if ($prefix === null) {
+            ConfigQuery::write(self::CONFIG_PATH, '', false, true);
         }
 
-        $enabled = ConfigQuery::read("back_office_path_default_enabled", null);
+        $enabled = ConfigQuery::read(self::CONFIG_USE_DEFAULT_PATH, null);
 
-        if (null === $enabled){
-            ConfigQuery::write("back_office_path_default_enabled", '1', false, true);
+        if ($enabled === null) {
+            ConfigQuery::write(self::CONFIG_USE_DEFAULT_PATH, true, false, true);
         }
 
         return true;
     }
-
 }
