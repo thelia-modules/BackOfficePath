@@ -19,13 +19,13 @@ use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 use Thelia\Model\ConfigQuery;
 
-
 /**
  * Class Configuration
- * @package HookSocial\Form
+ *
  * @author Julien Chanséaume <jchanseaume@openstudio.fr>
  */
-class Configuration extends BaseForm {
+class Configuration extends BaseForm
+{
 
     const PREFIXE_PATTERN = '^[A-Za-z0-9\-_]*$';
 
@@ -35,42 +35,42 @@ class Configuration extends BaseForm {
 
         $form
             ->add(
-                "back_office_path",
-                "text",
+                'back_office_path',
+                'text',
                 array(
                     'constraints' => array(
                         new NotBlank(),
                         new Regex([
-                            "pattern" => "#" . self::PREFIXE_PATTERN . "#",
-                            "message" => Translator::getInstance()->trans(
-                                "URL should only use alpha numeric, - and _ characters",
+                            'pattern' => '#' . self::PREFIXE_PATTERN . '#',
+                            'message' => Translator::getInstance()->trans(
+                                'URL should only use alpha numeric, - and _ characters',
                                 [],
                                 BackOfficePath::MESSAGE_DOMAIN
                             )
                         ])
                     ),
-                    'data' => ConfigQuery::read("back_office_path", ""),
-                    'label' => Translator::getInstance()->trans("The new prefix"),
+                    'data' => ConfigQuery::read('back_office_path', ''),
+                    'label' => Translator::getInstance()->trans('The new prefix'),
                     'label_attr' => array(
-                        'for' => "back_office_path",
+                        'for' => 'back_office_path',
                         'description' => Translator::getInstance()->trans(
-                            "It will replaced the default <code>%prefix</code>",
-                            ['%prefix' => "/" . BackOfficePath::DEFAULT_THELIA_PREFIX],
+                            'It will replaced the default <code>%prefix</code>',
+                            ['%prefix' => '/' . BackOfficePath::DEFAULT_THELIA_PREFIX],
                             BackOfficePath::MESSAGE_DOMAIN
                         )
                     ),
                 )
             )
             ->add(
-                "back_office_path_default_enabled",
-                "checkbox",
+                'back_office_path_default_enabled',
+                'checkbox',
                 array(
-                    'data' => intval(ConfigQuery::read("back_office_path_default_enabled", "")) === 1,
-                    'label' => Translator::getInstance()->trans("Use also the default prefix"),
+                    'data' => intval(ConfigQuery::read('back_office_path_default_enabled', '')) === 1,
+                    'label' => Translator::getInstance()->trans('Use also the default prefix'),
                     'label_attr' => array(
-                        'for'  => "back_office_path_default_enabled",
+                        'for'  => 'back_office_path_default_enabled',
                         'help' => Translator::getInstance()->trans(
-                            "Activate this to test your new prefix. If it doesn't work you could rollback your changes (the link in the HTML content will not be replaced)",
+                            'Activate this to test your new prefix. If it doesn\'t work you could rollback your changes (the link in the HTML content will not be replaced)',
                             [],
                             BackOfficePath::MESSAGE_DOMAIN
                         )
@@ -85,8 +85,6 @@ class Configuration extends BaseForm {
      */
     public function getName()
     {
-        return "backofficepath";
+        return 'backofficepath';
     }
-
-
-} 
+}

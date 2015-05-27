@@ -11,36 +11,31 @@
 /*************************************************************************************/
 
 namespace BackOfficePath\Controller;
+
 use BackOfficePath\BackOfficePath;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
-use Thelia\Core\Translation\Translator;
-use Thelia\Log\Tlog;
 use Thelia\Model\ConfigQuery;
 use Thelia\Tools\URL;
-
 
 /**
  * Class Configuration
  * @package HookSocial\Controller
  * @author Julien Chanséaume <jchanseaume@openstudio.fr>
  */
-class Configuration extends BaseAdminController {
-
+class Configuration extends BaseAdminController
+{
     public function saveAction()
     {
-
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), array('backofficepath'), AccessManager::UPDATE)) {
+        $response = $this->checkAuth([AdminResources::MODULE], ['backofficepath'], AccessManager::UPDATE);
+        if ($response !== null) {
             return $response;
         }
 
         $form = new \BackOfficePath\Form\Configuration($this->getRequest());
-        $message = "";
-
-        $response=null;
+        $message = '';
 
         try {
             $vform = $this->validateForm($form);
@@ -62,20 +57,19 @@ class Configuration extends BaseAdminController {
             $this->getParserContext()->setGeneralError($message);
 
             return $this->render(
-                "module-configure",
+                'module-configure',
                 array(
-                    "module_code" => BackOfficePath::getModuleCode(),
+                    'module_code' => BackOfficePath::getModuleCode(),
                 )
             );
         }
 
         return RedirectResponse::create(
             URL::getInstance()->absoluteUrl(
-                "/admin/module/" .
+                '/admin/module/' .
                 BackOfficePath::getModuleCode()
             )
         );
 
     }
-
-} 
+}
