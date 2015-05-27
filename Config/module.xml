@@ -7,7 +7,7 @@
     <descriptive locale="fr_FR">
         <title>Chemin BackOffice</title>
     </descriptive>
-    <version>0.2</version>
+    <version>0.3.0</version>
     <author>
         <name>Julien Chanséaume</name>
         <email>jchanseaume@openstudio.fr</email>
