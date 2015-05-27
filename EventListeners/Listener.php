@@ -28,32 +28,15 @@ use Thelia\Model\ConfigQuery;
  */
 class Listener implements EventSubscriberInterface
 {
-
-    /**
-     * Returns an array of event names this subscriber wants to listen to.
-     *
-     * The array keys are event names and the value can be:
-     *
-     *  * The method name to call (priority defaults to 0)
-     *  * An array composed of the method name to call and the priority
-     *  * An array of arrays composed of the method names to call and respective
-     *    priorities, or 0 if unset
-     *
-     * For instance:
-     *
-     *  * array('eventName' => 'methodName')
-     *  * array('eventName' => array('methodName', $priority))
-     *  * array('eventName' => array(array('methodName1', $priority), array('methodName2'))
-     *
-     * @return array The event names to listen to
-     *
-     * @api
-     */
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::RESPONSE => ['doResponse', 10],
-            KernelEvents::REQUEST  => ['doRequest', 255]
+            KernelEvents::REQUEST  => [
+                ['doRequest', 255],
+            ],
+            KernelEvents::RESPONSE => [
+                ['doResponse', 10]
+            ]
         ];
     }
 
@@ -106,7 +89,7 @@ class Listener implements EventSubscriberInterface
 
     public function doRequest(GetResponseEvent $event)
     {
-        if (HttpKernel::MASTER_REQUEST != $event->getRequestType()) {
+        if ($event->getRequestType() !== HttpKernel::MASTER_REQUEST) {
             return;
         }
 
@@ -122,7 +105,11 @@ class Listener implements EventSubscriberInterface
         $prefix !== null && $prefix !== "";
 
         if ($isValid) {
-            throw new NotFoundHttpException();
+            /** @var \Symfony\Component\Routing\RequestContext $context */
+            $context = $event->getKernel()->getContainer()->get('request.context');
+            $context->fromRequest($event->getRequest());
+
+            throw new NotFoundHttpException;
         }
 
         // Check if the URL is an backOffice URL
