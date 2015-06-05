@@ -1,5 +1,10 @@
+# 0.3.1
+- Really Fix: All case of wrong response with old and new path
+  + All those [#1](https://github.com/thelia-modules/BackOfficePath/issues/1)
+  + All REQUEST_URI begining by <DEFAULT_PATH> (`admin`) : `monsite.com/<DEFAULT_PATH>/modules`,  `monsite.com/<DEFAULT_PATH>/configuration`, ... 
+
 # 0.3.0
-- FIX: set request context before throwing `NotFoundHttpException`
+- Fix: set request context before throwing `NotFoundHttpException`
 
 # 0.2.0
 - Fix redirection on base admin path to login and home, fix regex to take care about base prefix path ([#4](https://github.com/thelia-modules/BackOfficePath/pull/4))
