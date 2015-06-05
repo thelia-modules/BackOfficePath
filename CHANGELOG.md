@@ -1,7 +1,7 @@
 # 0.3.1
-- Really Fix: All case of wrong response with old and new path
+- Really Fix: All case of wrong responses with old and new path
   + All those [#1](https://github.com/thelia-modules/BackOfficePath/issues/1)
-  + All REQUEST_URI begining by <DEFAULT_PATH> (`admin`) : `monsite.com/<DEFAULT_PATH>/modules`,  `monsite.com/<DEFAULT_PATH>/configuration`, ... 
+  + All REQUEST_URI beginning by <DEFAULT_PATH> (`admin`) : `monsite.com/<DEFAULT_PATH>/modules`,  `monsite.com/<DEFAULT_PATH>/configuration`, ... 
 
 # 0.3.0
 - Fix: set request context before throwing `NotFoundHttpException`
