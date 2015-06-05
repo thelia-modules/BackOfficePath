@@ -70,6 +70,5 @@ class Configuration extends BaseAdminController
                 BackOfficePath::getModuleCode()
             )
         );
-
     }
 }
