@@ -1,3 +1,6 @@
+# 0.3.2
+- Missing domain name for some translations ([#7](https://github.com/thelia-modules/BackOfficePath/pull/7))
+
 # 0.3.1
 - Really Fix: All case of wrong responses with old and new path
   + All those [#1](https://github.com/thelia-modules/BackOfficePath/issues/1)
