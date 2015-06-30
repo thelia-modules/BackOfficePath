@@ -50,7 +50,10 @@ class Configuration extends BaseForm
                         ])
                     ),
                     'data' => ConfigQuery::read('back_office_path', ''),
-                    'label' => Translator::getInstance()->trans('The new prefix'),
+                    'label' => Translator::getInstance()->trans('The new prefix',
+                                [],
+                                BackOfficePath::MESSAGE_DOMAIN
+                                ),
                     'label_attr' => array(
                         'for' => 'back_office_path',
                         'description' => Translator::getInstance()->trans(
@@ -66,7 +69,9 @@ class Configuration extends BaseForm
                 'checkbox',
                 array(
                     'data' => intval(ConfigQuery::read('back_office_path_default_enabled', '')) === 1,
-                    'label' => Translator::getInstance()->trans('Use also the default prefix'),
+                    'label' => Translator::getInstance()->trans('Use also the default prefix',
+                                [],
+                                BackOfficePath::MESSAGE_DOMAIN),
                     'label_attr' => array(
                         'for'  => 'back_office_path_default_enabled',
                         'help' => Translator::getInstance()->trans(
