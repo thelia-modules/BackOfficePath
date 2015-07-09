@@ -1,3 +1,6 @@
+# 0.3.3
+- Fix stability in module.xml
+
 # 0.3.2
 - Missing domain name for some translations ([#7](https://github.com/thelia-modules/BackOfficePath/pull/7))
 
