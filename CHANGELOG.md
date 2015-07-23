@@ -1,3 +1,7 @@
+# 1.0
+- Require Thelia 2.2.0
+- Use middleware to catch requests
+
 # 0.3.3
 - Fix stability in module.xml
 

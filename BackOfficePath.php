@@ -18,35 +18,26 @@ use Thelia\Module\BaseModule;
 
 /**
  * Class BackOfficePath
+ *
+ * @author Florian Picard <fpicard@openstudio.fr>
+ * @author Jérôme Billiras <jbilliras@openstudio.fr>
  */
 class BackOfficePath extends BaseModule
 {
-    /**
-     * @var string Translation domain
-     */
+    /** @var string Translation domain  */
     const MESSAGE_DOMAIN = 'backofficepath';
 
-    /**
-     * @var string Default admin path
-     */
+    /** @var string Default admin path */
     const DEFAULT_THELIA_PREFIX = 'admin';
 
-    /**
-     * @var string Configuration key for new path
-     */
+    /** @var string Configuration key for new path  */
     const CONFIG_PATH = 'back_office_path';
 
-    /**
-     * @var string Configuration key for using default path
-     */
+    /** @var string Configuration key for using default path */
     const CONFIG_USE_DEFAULT_PATH = 'back_office_path_default_enabled';
 
-    public static function getModuleCode()
-    {
-        $fullClassName = explode('\\', get_called_class());
-
-        return end($fullClassName);
-    }
+    /** @var string Request attribute key to determine if custom admin path is in use */
+    const IS_CUSTOM_ADMIN_PATH = 'is_custom_admin_path';
 
     public function preActivation(ConnectionInterface $con = null)
     {
@@ -62,5 +53,25 @@ class BackOfficePath extends BaseModule
         }
 
         return true;
+    }
+
+    /**
+     * Replace url in content
+     *
+     * @param string $content
+     * @param string $oldPrefix
+     * @param string $newPrefix
+     *
+     * @return string Content with replaced urls
+     */
+    public static function replaceUrl($content, $oldPrefix, $newPrefix)
+    {
+        $replacedUrl = preg_replace(
+            '#(.*?)/' . preg_quote($oldPrefix, '#') . '(.*?)#',
+            '$1/' . $newPrefix . '$2',
+            $content
+        );
+
+        return $replacedUrl;
     }
 }

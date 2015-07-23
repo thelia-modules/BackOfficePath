@@ -8,5 +8,10 @@
         <service id="back_office_path.response.listener" class="BackOfficePath\EventListeners\Listener">
             <tag name="kernel.event_subscriber"/>
         </service>
+        <service id="back_office_path.stack" class="BackOfficePath\Stack\BackOfficePathMiddleware">
+            <argument type="service" id="service_container" />
+
+            <tag name="stack_middleware" priority="500" />
+        </service>
     </services>
 </config>

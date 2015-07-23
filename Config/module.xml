@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module>
+<module xmlns="http://thelia.net/schema/dic/module" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_2.xsd">
     <fullnamespace>BackOfficePath\BackOfficePath</fullnamespace>
     <descriptive locale="en_US">
-        <title>BackOffice Path</title>
+        <title>Customize backoffice pannel URL</title>
     </descriptive>
     <descriptive locale="fr_FR">
-        <title>Chemin BackOffice</title>
+        <title>Personnalise l'adresse du panneau d'adminitration</title>
     </descriptive>
-    <version>0.3.3</version>
-    <author>
-        <name>Julien Chanséaume</name>
-        <email>jchanseaume@openstudio.fr</email>
-    </author>
+    <languages>
+        <language>en_US</language>
+        <language>fr_FR</language>
+    </languages>
+    <version>1.0.0</version>
+    <authors>
+        <author>
+            <name>Julien Chanséaume</name>
+            <email>jchanseaume@openstudio.fr</email>
+        </author>
+        <author>
+            <name>Jérôme Billiras</name>
+            <email>jbilliras@openstudio.fr</email>
+        </author>
+    </authors>
     <type>classic</type>
-    <thelia>2.0.0</thelia>
+    <thelia>2.2.0</thelia>
     <stability>prod</stability>
 </module>
