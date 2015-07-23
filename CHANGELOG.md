@@ -1,4 +1,7 @@
-# 1.0
+# 1.1.0
+- Drop Thelia requirement to v2.1.0
+
+# 1.0.0
 - Require Thelia 2.2.0
 - Use middleware to catch requests
 
