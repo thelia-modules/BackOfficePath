@@ -26,13 +26,13 @@ use Thelia\Model\ConfigQuery;
  */
 class Configuration extends BaseForm
 {
-
+    
     const PREFIXE_PATTERN = '^[A-Za-z0-9\-_]*$';
-
+    
     protected function buildForm()
     {
         $form = $this->formBuilder;
-
+        
         $form
             ->add(
                 'back_office_path',
@@ -50,13 +50,14 @@ class Configuration extends BaseForm
                         ])
                     ),
                     'data' => ConfigQuery::read('back_office_path', ''),
-                    'label' => Translator::getInstance()->trans('The new prefix',
-                                [],
-                                BackOfficePath::MESSAGE_DOMAIN
-                                ),
+                    'label' => Translator::getInstance()->trans(
+                        'The new prefix',
+                        [],
+                        BackOfficePath::MESSAGE_DOMAIN
+                    ),
                     'label_attr' => array(
                         'for' => 'back_office_path',
-                        'description' => Translator::getInstance()->trans(
+                        'help' => Translator::getInstance()->trans(
                             'It will replaced the default <code>%prefix</code>',
                             ['%prefix' => '/' . BackOfficePath::DEFAULT_THELIA_PREFIX],
                             BackOfficePath::MESSAGE_DOMAIN
@@ -69,11 +70,13 @@ class Configuration extends BaseForm
                 'checkbox',
                 array(
                     'data' => intval(ConfigQuery::read('back_office_path_default_enabled', '')) === 1,
-                    'label' => Translator::getInstance()->trans('Use also the default prefix',
-                                [],
-                                BackOfficePath::MESSAGE_DOMAIN),
+                    'label' => Translator::getInstance()->trans(
+                        'Use also the default prefix',
+                        [],
+                        BackOfficePath::MESSAGE_DOMAIN
+                    ),
                     'label_attr' => array(
-                        'for'  => 'back_office_path_default_enabled',
+                        'for' => 'back_office_path_default_enabled',
                         'help' => Translator::getInstance()->trans(
                             'Activate this to test your new prefix. If it doesn\'t work you could rollback your changes (the link in the HTML content will not be replaced)',
                             [],
@@ -83,7 +86,7 @@ class Configuration extends BaseForm
                 )
             );
     }
-
+    
     /**
      * @return string the name of you form. This name must be unique
      */

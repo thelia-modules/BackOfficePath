@@ -8,10 +8,16 @@
         <service id="back_office_path.response.listener" class="BackOfficePath\EventListeners\Listener">
             <tag name="kernel.event_subscriber"/>
         </service>
+
         <service id="back_office_path.stack" class="BackOfficePath\Stack\BackOfficePathMiddleware">
             <argument type="service" id="service_container" />
-
             <tag name="stack_middleware" priority="500" />
         </service>
     </services>
+
+    <hooks>
+        <hook id="back_office_path.configuration.hook" class="BackOfficePath\Hook\HookManager">
+            <tag name="hook.event_listener" event="module.configuration" type="back" method="onModuleConfigure" />
+        </hook>
+    </hooks>
 </config>

@@ -13,7 +13,6 @@
 namespace BackOfficePath\Controller;
 
 use BackOfficePath\BackOfficePath;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
@@ -29,8 +28,7 @@ class Configuration extends BaseAdminController
 {
     public function saveAction()
     {
-        $response = $this->checkAuth([AdminResources::MODULE], ['backofficepath'], AccessManager::UPDATE);
-        if ($response !== null) {
+        if (null !== $response = $this->checkAuth([AdminResources::MODULE], ['backofficepath'], AccessManager::UPDATE)) {
             return $response;
         }
 
@@ -41,7 +39,7 @@ class Configuration extends BaseAdminController
             $vform = $this->validateForm($form);
             $data = $vform->getData();
 
-            ConfigQuery::write('back_office_path', $data['back_office_path'], false, true);
+            ConfigQuery::write('back_office_path', trim($data['back_office_path'], '/'), false, true);
             ConfigQuery::write(
                 'back_office_path_default_enabled',
                 $data['back_office_path_default_enabled'] ? '1' : '0',
@@ -51,24 +49,13 @@ class Configuration extends BaseAdminController
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
+        
         if ($message) {
             $form->setErrorMessage($message);
             $this->getParserContext()->addForm($form);
             $this->getParserContext()->setGeneralError($message);
-
-            return $this->render(
-                'module-configure',
-                array(
-                    'module_code' => BackOfficePath::getModuleCode(),
-                )
-            );
         }
-
-        return RedirectResponse::create(
-            URL::getInstance()->absoluteUrl(
-                '/admin/module/' .
-                BackOfficePath::getModuleCode()
-            )
-        );
+    
+        return $this->generateRedirect(URL::getInstance()->absoluteUrl('/admin/module/' . BackOfficePath::getModuleCode()));
     }
 }
