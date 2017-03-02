@@ -55,7 +55,7 @@ class BackOfficePathMiddleware implements HttpKernelInterface
             // Discard the default /admin URL
             $discardDefaultPath =
                 $defaultEnabled !== 1
-                && preg_match("/^\/".BackOfficePath::DEFAULT_THELIA_PREFIX."(\/.*$|$)/", $pathInfo) === 1
+                && BackOfficePath::matchPrefix($pathInfo, BackOfficePath::DEFAULT_THELIA_PREFIX)
                 && $prefix !== null
                 && $prefix !== ''
             ;
@@ -78,7 +78,7 @@ class BackOfficePathMiddleware implements HttpKernelInterface
                 return $response;
             }
             
-            if (preg_match("/^\/".$prefix."(\/.*$|$)/", $pathInfo) === 1
+            if (BackOfficePath::matchPrefix($pathInfo, $prefix)
                 && $prefix !== null
                 && $prefix !== ''
             ) {
