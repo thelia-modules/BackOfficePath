@@ -1,3 +1,10 @@
+# 1.2.0
+- Fixed [#14](https://github.com/thelia-modules/BackOfficePath/issues/14): A prefix cannot start with "admin"
+- Fixed [#12](https://github.com/thelia-modules/BackOfficePath/issues/12) : Update Thelia 2.3 - no scope='request'
+- The module now uses hooks instead of AdminIncludes
+- Minor UI improvements
+- Minimum requirement is now Thelia 2.3.0
+ 
 # 1.1.0
 - Drop Thelia requirement to v2.1.0
 

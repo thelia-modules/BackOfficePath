@@ -71,7 +71,17 @@ class BackOfficePath extends BaseModule
             '$1/' . $newPrefix . '$2',
             $content
         );
-
+    
         return $replacedUrl;
+    }
+    
+    public static function matchPath($path, $prefix)
+    {
+        return preg_match("/^\/".preg_quote($prefix, '/')."(\/.*$|$)/", $path) === 1;
+    }
+    
+    public static function matchUrl($path, $prefix)
+    {
+        return preg_match("/\/".preg_quote($prefix, '/')."(\/.*$|$)/", $path) === 1;
     }
 }
