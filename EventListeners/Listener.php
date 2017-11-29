@@ -50,9 +50,9 @@ class Listener implements EventSubscriberInterface
 
         // Replace default admin url by custom one
         $prefix = ConfigQuery::read(BackOfficePath::CONFIG_PATH);
-    
+
         $pathInfo = $event->getRequest()->getPathInfo();
-        
+
         if (BackOfficePath::matchPath($pathInfo, BackOfficePath::DEFAULT_THELIA_PREFIX)
             && $prefix !== null
             && $prefix !== ''
@@ -61,19 +61,23 @@ class Listener implements EventSubscriberInterface
 
             if ($response instanceof RedirectResponse) {
                 $targetUrl = $response->getTargetUrl();
-                
+
                 if (BackOfficePath::matchUrl($targetUrl, BackOfficePath::DEFAULT_THELIA_PREFIX)) {
                     $newUrl = BackOfficePath::replaceUrl($targetUrl, BackOfficePath::DEFAULT_THELIA_PREFIX, $prefix);
                     $response->setTargetUrl($newUrl);
                 }
             } else {
-                $content = BackOfficePath::replaceUrl(
-                    $response->getContent(),
-                    BackOfficePath::DEFAULT_THELIA_PREFIX,
-                    $prefix
-                );
-                
-                $response->setContent($content);
+                try {
+                    $content = BackOfficePath::replaceUrl(
+                        $response->getContent(),
+                        BackOfficePath::DEFAULT_THELIA_PREFIX,
+                        $prefix
+                    );
+
+                    $response->setContent($content);
+                } catch (\LogicException $ex) {
+                    // Ignore LogicExceptions, thrown when response content cannot be set
+                }
             }
         }
     }
