@@ -14,7 +14,9 @@ namespace BackOfficePath\EventListeners;
 
 use BackOfficePath\BackOfficePath;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Thelia\Model\ConfigQuery;
@@ -66,7 +68,8 @@ class Listener implements EventSubscriberInterface
                     $newUrl = BackOfficePath::replaceUrl($targetUrl, BackOfficePath::DEFAULT_THELIA_PREFIX, $prefix);
                     $response->setTargetUrl($newUrl);
                 }
-            } else {
+            } elseif (! ($response instanceof BinaryFileResponse || $response instanceof StreamedResponse)) {
+                // We can't change response content for Binary or Streamed Response
                 try {
                     $content = BackOfficePath::replaceUrl(
                         $response->getContent(),

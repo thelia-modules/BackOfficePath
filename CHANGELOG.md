@@ -1,3 +1,9 @@
+# 1.2.2
+- Prevent reponse content change for binary or streamed responses (small performance gain)
+
+# 1.2.1
+- Catch exception when response content cannot be set 
+
 # 1.2.0
 - Fixed [#14](https://github.com/thelia-modules/BackOfficePath/issues/14): A prefix cannot start with "admin"
 - Fixed [#12](https://github.com/thelia-modules/BackOfficePath/issues/12) : Update Thelia 2.3 - no scope='request'
