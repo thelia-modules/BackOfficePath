@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Thelia\Model\ConfigQuery;
 
@@ -32,18 +32,16 @@ class Listener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::RESPONSE => [
-                ['doResponse', 10]
-            ]
+            KernelEvents::RESPONSE => ['doResponse', 10]
         ];
     }
 
     /**
      * Handle response on KernelEvents::RESPONSE
      *
-     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event A FilterResponseEvent object
+     * @param \Symfony\Component\HttpKernel\Event\ResponseEvent $event A FilterResponseEvent object
      */
-    public function doResponse(FilterResponseEvent $event)
+    public function doResponse(ResponseEvent $event)
     {
         // Skip if the default thelia prefix is used
         if (!$event->getRequest()->attributes->get(BackOfficePath::IS_CUSTOM_ADMIN_PATH)) {
@@ -55,9 +53,9 @@ class Listener implements EventSubscriberInterface
 
         $pathInfo = $event->getRequest()->getPathInfo();
 
-        if (BackOfficePath::matchPath($pathInfo, BackOfficePath::DEFAULT_THELIA_PREFIX)
-            && $prefix !== null
+        if ($prefix !== null
             && $prefix !== ''
+            && BackOfficePath::matchPath($pathInfo, BackOfficePath::DEFAULT_THELIA_PREFIX)
         ) {
             $response = $event->getResponse();
 

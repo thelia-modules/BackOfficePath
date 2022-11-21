@@ -16,6 +16,7 @@ use BackOfficePath\BackOfficePath;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Core\Template\ParserContext;
 use Thelia\Model\ConfigQuery;
 use Thelia\Tools\URL;
 
@@ -26,13 +27,13 @@ use Thelia\Tools\URL;
  */
 class Configuration extends BaseAdminController
 {
-    public function saveAction()
+    public function saveAction(ParserContext $parserContext)
     {
         if (null !== $response = $this->checkAuth([AdminResources::MODULE], ['backofficepath'], AccessManager::UPDATE)) {
             return $response;
         }
 
-        $form = new \BackOfficePath\Form\Configuration($this->getRequest());
+        $form = $this->createForm(\BackOfficePath\Form\Configuration::getName());
         $message = '';
 
         try {
@@ -49,13 +50,14 @@ class Configuration extends BaseAdminController
         } catch (\Exception $e) {
             $message = $e->getMessage();
         }
-        
+
         if ($message) {
             $form->setErrorMessage($message);
-            $this->getParserContext()->addForm($form);
-            $this->getParserContext()->setGeneralError($message);
+            $parserContext
+                ->addForm($form)
+                ->setGeneralError($message);
         }
-    
+
         return $this->generateRedirect(URL::getInstance()->absoluteUrl('/admin/module/' . BackOfficePath::getModuleCode()));
     }
 }
