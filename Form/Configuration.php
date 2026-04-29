@@ -31,7 +31,7 @@ class Configuration extends BaseForm
 
     const PREFIXE_PATTERN = '^[A-Za-z0-9\-_]*$';
 
-    protected function buildForm()
+    protected function buildForm(): void
     {
         $form = $this->formBuilder;
 
@@ -60,7 +60,7 @@ class Configuration extends BaseForm
                     'label_attr' => array(
                         'for' => 'back_office_path',
                         'help' => Translator::getInstance()->trans(
-                            'It will replaced the default <code>%prefix</code>',
+                            'It will replace the default <code>%prefix</code>',
                             ['%prefix' => '/' . BackOfficePath::DEFAULT_THELIA_PREFIX],
                             BackOfficePath::MESSAGE_DOMAIN
                         )
@@ -92,8 +92,8 @@ class Configuration extends BaseForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public static function getName()
+    public static function getName(): string
     {
-        return 'backofficepath';
+        return 'backofficepath_configuration_form';
     }
 }

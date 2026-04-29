@@ -17,10 +17,22 @@ use Thelia\Core\Hook\BaseHook;
 
 class HookManager extends BaseHook
 {
-    public function onModuleConfigure(HookRenderEvent $event)
+    public function onModuleConfigure(HookRenderEvent $event): void
     {
         $event->add(
             $this->render('back-office-path/module_configuration.html')
         );
+    }
+
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            "module.configuration" => [
+                [
+                    "type" => "back",
+                    "method" => "onModuleConfigure"
+                ],
+            ]
+        ];
     }
 }
