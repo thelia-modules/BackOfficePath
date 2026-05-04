@@ -2,17 +2,17 @@
 {extends file="admin-layout.tpl"}
 
 {block name="check-auth"}
-    {check_auth role="ADMIN" module="Mailjet" access="UPDATE" login_tpl="/admin/login"}
+    {check_auth role="ADMIN" module="BackOfficePath" access="UPDATE" login_tpl="/admin/login"}
 {/block}
 
 {block name="no-return-functions"}
     {$admin_current_location = 'modules'}
 {/block}
 
-{block name="check-resource"}admin.module.mailjet{/block}
+{block name="check-resource"}admin.module.backofficepath{/block}
 {block name="check-access"}view{/block}
 
-{block name="page-title"}{intl l='Configuration Mailjet'}{/block}
+{block name="page-title"}{intl l='Configuration BackOfficePath'}{/block}
 
 {block name="main-content"}
 

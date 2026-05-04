@@ -40,7 +40,7 @@ class BackOfficePath extends BaseModule
     /** @var string Request attribute key to determine if custom admin path is in use */
     const IS_CUSTOM_ADMIN_PATH = 'is_custom_admin_path';
 
-    public function preActivation(ConnectionInterface $con = null): bool
+    public function preActivation(?ConnectionInterface $con = null): bool
     {
         $prefix = ConfigQuery::read(self::CONFIG_PATH);
         if ($prefix === null) {
@@ -71,15 +71,15 @@ class BackOfficePath extends BaseModule
             '#(.*?)/' . preg_quote($oldPrefix, '#') . '(.*?)#',
             '$1/' . $newPrefix . '$2',
             $content
-        );
+        ) ?? "";
     }
 
-    public static function matchPath($path, $prefix): bool
+    public static function matchPath(string $path, string $prefix): bool
     {
         return preg_match("/^\/".preg_quote($prefix, '/')."(\/.*$|$)/", $path) === 1;
     }
 
-    public static function matchUrl($path, $prefix): bool
+    public static function matchUrl(string $path, string $prefix): bool
     {
         return preg_match("/\/".preg_quote($prefix, '/')."(\/.*$|$)/", $path) === 1;
     }
@@ -87,7 +87,7 @@ class BackOfficePath extends BaseModule
     public static function configureServices(ServicesConfigurator $servicesConfigurator): void
     {
         $servicesConfigurator->load(self::getModuleCode().'\\', __DIR__)
-            ->exclude([THELIA_LOCAL_MODULE_DIR.ucfirst(self::getModuleCode()).'/I18n/*'])
+            ->exclude([THELIA_MODULE_DIR.ucfirst(self::getModuleCode()).'/I18n/*'])
             ->autowire(true)
             ->autoconfigure(true);
     }
