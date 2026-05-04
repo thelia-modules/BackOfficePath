@@ -13,6 +13,9 @@
 namespace BackOfficePath\Controller;
 
 use BackOfficePath\BackOfficePath;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
@@ -25,9 +28,17 @@ use Thelia\Tools\URL;
  * @package HookSocial\Controller
  * @author Julien Chanséaume <jchanseaume@openstudio.fr>
  */
+#[Route('/admin/module/BackOfficePath', name: 'backofficepath_configuration')]
 class Configuration extends BaseAdminController
 {
-    public function saveAction(ParserContext $parserContext)
+    #[Route('', name: '_index', methods: 'GET')]
+    public function indexAction(): Response
+    {
+        return $this->render('back-office-path/module_configuration');
+    }
+
+    #[Route('/save', name: '_save', methods: 'POST')]
+    public function saveAction(ParserContext $parserContext): RedirectResponse|Response|null
     {
         if (null !== $response = $this->checkAuth([AdminResources::MODULE], ['backofficepath'], AccessManager::UPDATE)) {
             return $response;

@@ -40,7 +40,7 @@ class BackOfficePath extends BaseModule
     /** @var string Request attribute key to determine if custom admin path is in use */
     const IS_CUSTOM_ADMIN_PATH = 'is_custom_admin_path';
 
-    public function preActivation(ConnectionInterface $con = null)
+    public function preActivation(?ConnectionInterface $con = null): bool
     {
         $prefix = ConfigQuery::read(self::CONFIG_PATH);
         if ($prefix === null) {
@@ -65,23 +65,21 @@ class BackOfficePath extends BaseModule
      *
      * @return string Content with replaced urls
      */
-    public static function replaceUrl($content, $oldPrefix, $newPrefix)
+    public static function replaceUrl(string $content, string $oldPrefix, string $newPrefix): string
     {
-        $replacedUrl = preg_replace(
+        return preg_replace(
             '#(.*?)/' . preg_quote($oldPrefix, '#') . '(.*?)#',
             '$1/' . $newPrefix . '$2',
             $content
-        );
-
-        return $replacedUrl;
+        ) ?? "";
     }
 
-    public static function matchPath($path, $prefix)
+    public static function matchPath(string $path, string $prefix): bool
     {
         return preg_match("/^\/".preg_quote($prefix, '/')."(\/.*$|$)/", $path) === 1;
     }
 
-    public static function matchUrl($path, $prefix)
+    public static function matchUrl(string $path, string $prefix): bool
     {
         return preg_match("/\/".preg_quote($prefix, '/')."(\/.*$|$)/", $path) === 1;
     }

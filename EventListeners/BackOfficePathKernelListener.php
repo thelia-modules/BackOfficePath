@@ -13,7 +13,6 @@
 namespace BackOfficePath\EventListeners;
 
 use BackOfficePath\BackOfficePath;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -21,7 +20,6 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Thelia\Core\Template\ParserInterface;
 use Thelia\Model\ConfigQuery;
 
 /**
@@ -57,9 +55,8 @@ class BackOfficePathKernelListener implements EventSubscriberInterface
     /**
      * @param RequestEvent $event
      * @return void
-     * @throws \SmartyException
      */
-    public function processBackOfficeUrl(RequestEvent $event)
+    public function processBackOfficeUrl(RequestEvent $event): void
     {
         if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;

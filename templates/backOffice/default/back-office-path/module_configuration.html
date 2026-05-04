@@ -1,3 +1,21 @@
+@@ -1,3 +1,19 @@
+{extends file="admin-layout.tpl"}
+
+{block name="check-auth"}
+    {check_auth role="ADMIN" module="BackOfficePath" access="UPDATE" login_tpl="/admin/login"}
+{/block}
+
+{block name="no-return-functions"}
+    {$admin_current_location = 'modules'}
+{/block}
+
+{block name="check-resource"}admin.module.backofficepath{/block}
+{block name="check-access"}view{/block}
+
+{block name="page-title"}{intl l='Configuration BackOfficePath'}{/block}
+
+{block name="main-content"}
+
 <div class="general-block-decorator">
     <div class="row">
 
@@ -8,8 +26,8 @@
         <div class="form-container">
             <div class="col-xs-12 col-md-6">
 
-                {form name="backofficepath.configuration.form"}
-                <form method="POST" id="backofficepath-form" action="{url path="/admin/module/backofficepath/save"}" {form_enctype form=$form} class="clearfix">
+                {form name="backofficepath_configuration_form"}
+                <form method="POST" id="backofficepath-form" action="{url path="/admin/module/BackOfficePath/save"}" {form_enctype form=$form} class="clearfix">
 
                     {if $form_error_message}<div class="alert alert-danger">{$form_error_message}</div>{/if}
 
@@ -42,7 +60,4 @@
 
     </div>
 </div>
-
-
-
-
+{/block}

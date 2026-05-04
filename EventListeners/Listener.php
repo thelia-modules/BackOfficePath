@@ -29,7 +29,7 @@ use Thelia\Model\ConfigQuery;
  */
 class Listener implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::RESPONSE => ['doResponse', 10]
@@ -39,9 +39,9 @@ class Listener implements EventSubscriberInterface
     /**
      * Handle response on KernelEvents::RESPONSE
      *
-     * @param \Symfony\Component\HttpKernel\Event\ResponseEvent $event A FilterResponseEvent object
+     * @param ResponseEvent $event A FilterResponseEvent object
      */
-    public function doResponse(ResponseEvent $event)
+    public function doResponse(ResponseEvent $event): void
     {
         // Skip if the default thelia prefix is used
         if (!$event->getRequest()->attributes->get(BackOfficePath::IS_CUSTOM_ADMIN_PATH)) {
