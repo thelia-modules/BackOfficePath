@@ -21,24 +21,17 @@ use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Model\ConfigQuery;
-use Thelia\Tools\URL;
 
 /**
  * Class Configuration
- * @package HookSocial\Controller
+ * @package BackOfficePath\Controller
  * @author Julien Chanséaume <jchanseaume@openstudio.fr>
  */
 #[Route('/admin/module/BackOfficePath', name: 'backofficepath_configuration')]
 class Configuration extends BaseAdminController
 {
-    #[Route('', name: '_index', methods: 'GET')]
-    public function indexAction(): Response
-    {
-        return $this->render('back-office-path/module_configuration');
-    }
-
-    #[Route('/save', name: '_save', methods: 'POST')]
-    public function saveAction(ParserContext $parserContext): RedirectResponse|Response|null
+    #[Route('/save', name: '_save', methods: ['POST'])]
+    public function saveAction(ParserContext $parserContext): RedirectResponse|Response
     {
         if (null !== $response = $this->checkAuth([AdminResources::MODULE], ['backofficepath'], AccessManager::UPDATE)) {
             return $response;
@@ -69,6 +62,6 @@ class Configuration extends BaseAdminController
                 ->setGeneralError($message);
         }
 
-        return $this->generateRedirect(URL::getInstance()->absoluteUrl('/admin/module/' . BackOfficePath::getModuleCode()));
+        return $this->generateRedirectFromRoute('admin.module.configure', [], ['module_code' => BackOfficePath::getModuleCode()]);
     }
 }

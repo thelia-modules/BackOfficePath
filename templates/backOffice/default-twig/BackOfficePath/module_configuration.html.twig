@@ -1,0 +1,67 @@
+{# BackOfficePath — module configuration hook fragment (Bootstrap 5, no extends) #}
+<div class="card mb-3">
+    <div class="card-header">
+        {{ 'Edit your back office prefix.'|trans({}, 'backofficepath.bo.default') }}
+    </div>
+    <div class="card-body">
+
+        {% if form.vars.errors|length %}
+            <div class="alert alert-danger">
+                {% for error in form.vars.errors %}{{ error.message }}{% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" id="backofficepath-form" action="{{ path('backofficepath_configuration_save') }}" class="clearfix">
+
+            {# CSRF token — prefixed form name required for BaseForm validateForm() binding #}
+            <input type="hidden"
+                   name="{{ form.vars.full_name }}[_token]"
+                   value="{{ form._token.vars.value }}">
+            {% do form._token.setRendered %}
+
+            <div class="mb-3">
+                <label for="back_office_path" class="form-label">
+                    {{ form.back_office_path.vars.label }} :
+                </label>
+                <input type="text"
+                       id="back_office_path"
+                       name="{{ form.vars.full_name }}[back_office_path]"
+                       class="form-control{{ form.back_office_path.vars.errors|length ? ' is-invalid' : '' }}"
+                       value="{{ form.back_office_path.vars.value }}"
+                       title="{{ form.back_office_path.vars.label }}">
+                {% if form.back_office_path.vars.errors|length %}
+                    <div class="invalid-feedback">
+                        {% for error in form.back_office_path.vars.errors %}{{ error.message }}{% endfor %}
+                    </div>
+                {% endif %}
+                <div class="form-text">{{ form.back_office_path.vars.label_attr.help|raw }}</div>
+            </div>
+            {% do form.back_office_path.setRendered %}
+
+            <div class="form-check mb-3">
+                <input type="checkbox"
+                       class="form-check-input"
+                       id="back_office_path_default_enabled"
+                       name="{{ form.vars.full_name }}[back_office_path_default_enabled]"
+                       value="1"
+                       {{ form.back_office_path_default_enabled.vars.checked ? 'checked' : '' }}>
+                <label class="form-check-label" for="back_office_path_default_enabled">
+                    {{ form.back_office_path_default_enabled.vars.label }}
+                </label>
+                <div class="form-text">{{ form.back_office_path_default_enabled.vars.label_attr.help|raw }}</div>
+            </div>
+            {% do form.back_office_path_default_enabled.setRendered %}
+
+            <button type="submit"
+                    id="backofficepath-save"
+                    name="backofficepath_save"
+                    value="save"
+                    class="btn btn-sm btn-primary"
+                    title="{{ 'Save'|trans({}, 'backofficepath.bo.default') }}">
+                <i class="bi bi-save"></i>
+                {{ 'Save'|trans({}, 'backofficepath.bo.default') }}
+            </button>
+        </form>
+
+    </div>
+</div>
