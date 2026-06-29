@@ -67,11 +67,22 @@ class BackOfficePath extends BaseModule
      */
     public static function replaceUrl(string $content, string $oldPrefix, string $newPrefix): string
     {
+        // Skip paths that already carry the new prefix. When the custom prefix
+        // starts with the default one (e.g. "admin" -> "admin_xxx"), a naive
+        // replace turns "/admin_xxx" into "/admin_xxx_xxx" on every pass, so the
+        // value kept growing each time a back-office page was re-rendered/saved.
+        // The negative lookahead makes the replacement idempotent.
+        $suffix = str_starts_with($newPrefix, $oldPrefix)
+            ? substr($newPrefix, \strlen($oldPrefix))
+            : '';
+
+        $guard = $suffix !== '' ? '(?!' . preg_quote($suffix, '#') . ')' : '';
+
         return preg_replace(
-            '#(.*?)/' . preg_quote($oldPrefix, '#') . '(.*?)#',
-            '$1/' . $newPrefix . '$2',
+            '#/' . preg_quote($oldPrefix, '#') . $guard . '#',
+            '/' . $newPrefix,
             $content
-        ) ?? "";
+        ) ?? '';
     }
 
     public static function matchPath(string $path, string $prefix): bool
