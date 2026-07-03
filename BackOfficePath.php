@@ -78,8 +78,12 @@ class BackOfficePath extends BaseModule
 
         $guard = $suffix !== '' ? '(?!' . preg_quote($suffix, '#') . ')' : '';
 
+        // Only replace the prefix as a whole path segment: "/admin" inside
+        // "/administrators" must be left alone, otherwise links such as
+        // "/admin/configuration/administrators" end up pointing to a
+        // non-existent "/admin_xxx/configuration/admin_xxxistrators" route.
         return preg_replace(
-            '#/' . preg_quote($oldPrefix, '#') . $guard . '#',
+            '#/' . preg_quote($oldPrefix, '#') . $guard . '(?![\w-])#',
             '/' . $newPrefix,
             $content
         ) ?? '';
