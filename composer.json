@@ -1,10 +1,10 @@
 {
   "name": "thelia/backofficepath-module",
   "type": "thelia-module",
-  "license": "LGPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "description": "Customize the BackOffice path of your Thelia (URL to access to the administration panel)",
   "require": {
-    "thelia/installer": "~1.1"
+    "thelia/installer": "^1.6"
   },
   "extra": {
     "installer-name": "BackOfficePath"
